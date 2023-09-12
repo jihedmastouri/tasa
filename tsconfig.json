@@ -1,0 +1,42 @@
+{
+  "include": [
+      "./src"
+  ],
+  "compilerOptions": {
+    "outDir": "./lib",
+
+    /* Projects */
+    "incremental": true,
+
+    /* Language and Environment */
+    "target": "ESNext",
+    "jsx": "react",
+
+    /* Modules */
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+
+    /* JavaScript Support */
+    "allowJs": false,
+
+    /* Emit */
+    "declaration": true,
+    "declarationMap": true,
+    "removeComments": true,
+
+    /* Interop Constraints */
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true
+  }
+}
