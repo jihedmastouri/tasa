@@ -7,23 +7,15 @@ class Entity {
   }
 
   /**
-    * Drop the entity.
-    * @returns {Promise<boolean>} True if the entity was droped, False otherwise.
+    * Sets the value of a key.
+    * @param {string} key - The key.
+    * @param {unknown} value - The value.
+    * @returns {Promise<boolean>} True if the key was set, False otherwise.
     * @throws {Error} If the entity does not exist.
     */
-  drop(): Promise<boolean> {
-    console.log(`Entity.delete()`)
+  set(key: string, value: unknown): Promise<boolean> {
+    console.log(`Entity.set(${key}, ${value})`)
     return Promise.resolve(false)
-  }
-
-  /**
-    * Retrieves a list of keys.
-    * @returns {Promise<string[]>} The list of keys.
-    * @throws {Error} If the entity does not exist.
-    */
-  keys(): Promise<string[]> {
-    console.log(`Entity.keys()`)
-    return Promise.resolve([])
   }
 
   /**
@@ -39,15 +31,23 @@ class Entity {
   }
 
   /**
-    * Sets the value of a key.
-    * @param {string} key - The key.
-    * @param {unknown} value - The value.
-    * @returns {Promise<boolean>} True if the key was set, False otherwise.
+    * Advanced query.
+    * @returns {Query} The Query object.
     * @throws {Error} If the entity does not exist.
     */
-  set(key: string, value: unknown): Promise<boolean> {
-    console.log(`Entity.set(${key}, ${value})`)
-    return Promise.resolve(false)
+  query(): Query {
+    console.log(`Entity.query()`)
+    return new Query()
+  }
+
+  /**
+    * Retrieves a list of keys.
+    * @returns {Promise<string[]>} The list of keys.
+    * @throws {Error} If the entity does not exist.
+    */
+  keys(): Promise<string[]> {
+    console.log(`Entity.keys()`)
+    return Promise.resolve([])
   }
 
   /**
@@ -58,6 +58,16 @@ class Entity {
     */
   delete(key: string): Promise<boolean> {
     console.log(`Entity.delete(${key})`)
+    return Promise.resolve(false)
+  }
+
+  /**
+    * Deletes all entries.
+    * @returns {Promise<boolean>} True if the entity was droped, False otherwise.
+    * @throws {Error} If the entity does not exist.
+    */
+  deleteAll(): Promise<boolean> {
+    console.log(`Entity.delete()`)
     return Promise.resolve(false)
   }
 }

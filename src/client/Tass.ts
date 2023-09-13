@@ -41,14 +41,20 @@ class Tass {
       * @param {string} entityName - The name of the entity.
       * @returns {boolean} True if the entity was deleted, false otherwise.
       */
-    delete(entityName: string): boolean {
+    dropEntity(entityName: string): boolean {
       if (this.entities[entityName]) {
-        const entity = this.entities[entityName];
-        entity.drop();
         delete this.entities[entityName];
         return true;
       }
       return false;
+    }
+
+    /**
+     * Deletes all entities.
+     * @returns {Promise<boolean>} True if all entities were deleted, False otherwise.
+     */
+    dropAllEntities(): Promise<boolean>{
+      return Promise.resolve(false);
     }
 }
 
