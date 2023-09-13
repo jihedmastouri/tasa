@@ -1,9 +1,9 @@
-class Tass {
+class Tasa {
     private entities: Record<string, Entity>;
 
     constructor() {
       this.entities = {};
-      // TODO: Initialize the Tassa-thread and establish communication.
+      // TODO: Initialize the Tasa-thread and establish communication.
     }
 
     /**
@@ -22,7 +22,7 @@ class Tass {
      * @returns {string[]} The list of entities.
      */
     list(): string[]{
-      // TODO: Retrieve the list of entities from the Tassa-thread.
+      // TODO: Retrieve the list of entities from the Tasa-thread.
       return Object.keys(this.entities);
     }
 

@@ -2,7 +2,7 @@
 class Entity {
   name: string
   constructor(name: string) {
-    // TODO: Initialize the entity in the Tassa-Thread.
+    // TODO: Initialize the entity in the Tasa-Thread.
     this.name = name
   }
 

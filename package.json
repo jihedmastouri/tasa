@@ -1,5 +1,5 @@
 {
-  "name": "tassa",
+  "name": "tasa",
   "version": "1.0.0",
   "description": "Node in-memory datastore that runs in a separate worker.",
   "main": "index.js",
