@@ -5,16 +5,16 @@
  **/
 
 class Query {
-  //TODO: Implement Query class. (low priority for now)
-  constructor() {}
-  exec() {
-    return null;
-  }
-  find() {
-    return this;
-  }
-  findAll() {
-    return this;
-  }
-  /* .... */
+    //TODO: Implement Query class. (low priority for now)
+    constructor() {}
+    exec() {
+        return null
+    }
+    find() {
+        return this
+    }
+    findAll() {
+        return this
+    }
+    /* .... */
 }

@@ -1,13 +1,21 @@
 {
-  "name": "tassa",
-  "version": "1.0.0",
-  "description": "Node in-memory datastore that runs in a separate worker.",
-  "main": "index.js",
-  "scripts": {
-    "test": "tsc && jest --coverage --verbose ./lib",
-    "build": "tsc"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT"
+    "name": "tassa",
+    "version": "1.0.0",
+    "description": "Node in-memory datastore that runs in a separate worker.",
+    "main": "lib/index.js",
+    "scripts": {
+        "test": "tsc && jest --coverage --verbose ./lib",
+        "build": "tsup src/index.ts --format cjs,esm --dts",
+        "prettier-check": "prettier --check .",
+        "prettier-write": "prettier --write ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "typescript": "^4.0.5",
+        "@types/node": "^14.11.1",
+        "tsup": "^6.6.3",
+        "prettier": "3.0.0"
+    }
 }
