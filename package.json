@@ -2,7 +2,7 @@
     "name": "tassa",
     "version": "1.0.0",
     "description": "Node in-memory datastore that runs in a separate worker.",
-    "main": "lib/index.js",
+    "main": "dist/index.js",
     "scripts": {
         "test": "tsc && jest --coverage --verbose ./lib",
         "build": "tsup src/index.ts --format cjs,esm --dts",
