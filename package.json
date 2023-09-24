@@ -5,9 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "tsc && jest --coverage --verbose ./lib",
+    "prettier-write": "prettier --write .",
+    "prettier-check": "prettier --check .",
     "build": "tsc"
   },
   "keywords": [],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.6.5"
+  }
 }
