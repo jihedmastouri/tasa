@@ -7,12 +7,11 @@
     "incremental": true,
 
     /* Language and Environment */
-    "target": "ESNext",
-    "jsx": "react",
+    "target": "ES2020",
 
     /* Modules */
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "commonjs",
+    // "moduleResolution": "node",
     "baseUrl": "./src",
 
     /* JavaScript Support */

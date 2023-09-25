@@ -1,5 +1,6 @@
 import { Worker } from 'worker_threads';
 import path from 'node:path';
+import { Entity } from './Entity';
 
 export class Tasa {
   private entities: Record<string, Entity>;
@@ -16,7 +17,8 @@ export class Tasa {
    * @returns {Entity} The entity.
    */
   new(entityName: string): Entity {
-    const entity = new Entity(entityName);
+    console.log(`Creating new entity: ${entityName}`);
+    const entity = new Entity(entityName, this.worker);
     this.entities[entityName] = entity;
     return entity;
   }

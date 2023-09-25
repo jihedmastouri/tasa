@@ -1,9 +1,22 @@
-// TODO: Implement the Entity class.
-class Entity {
-  name: string;
-  constructor(name: string) {
-    // TODO: Initialize the entity in the Tasa-Thread.
-    this.name = name;
+import { BroadcastChannel } from 'worker_threads';
+import type { Worker } from 'worker_threads';
+
+export class Entity {
+  private _name: string;
+  private worker: Worker;
+  private b_get: BroadcastChannel;
+  private b_set: BroadcastChannel;
+
+  constructor(name: string, worker: Worker) {
+    this.worker = worker;
+    this._name = name;
+    this.worker.postMessage({ event: 'new', entity: name });
+    this.b_get = new BroadcastChannel(`get-${this.name}`);
+    this.b_set = new BroadcastChannel(`set-${this.name}`);
+  }
+
+  get name(): string {
+    return this._name;
   }
 
   /**
@@ -14,8 +27,15 @@ class Entity {
    * @throws {Error} If the entity does not exist.
    */
   set(key: string, value: unknown): Promise<boolean> {
-    console.log(`Entity.set(${key}, ${value})`);
-    return Promise.resolve(false);
+    return new Promise((resolve, _) => {
+      this.worker.postMessage({ event: 'set', entity: this.name, key, value });
+      console.log(`Entity.set(${this.name}, ${key}, ${value})`);
+      this.b_set.onmessage = (event) => {
+        console.log(`Entity.set()`);
+        // @ts-ignore
+        resolve(event.data);
+      };
+    });
   }
 
   /**
@@ -26,8 +46,13 @@ class Entity {
    * @throws {Error} If the entity does not exist.
    */
   get(key: string): unknown {
-    console.log(`Entity.get(${key})`);
-    return null;
+    this.worker.postMessage({ event: 'get', entityName: this.name, key });
+    return new Promise((resolve, _) => {
+      this.b_get.onmessage = (event) => {
+        // @ts-ignore
+        resolve(event.data);
+      };
+    });
   }
 
   /**

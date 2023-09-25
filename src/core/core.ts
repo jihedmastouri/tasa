@@ -1,5 +1,6 @@
-class Core {
+export class Core {
   private entities: Record<string, Map<string, unknown>>;
+
   constructor() {
     this.entities = {};
   }
@@ -13,6 +14,12 @@ class Core {
   }
 
   set(name: string, key: string, value: unknown) {
-    this.entities[name].set(key, value);
+    try {
+      this.entities[name].set(key, value);
+      return true;
+    } catch (e) {
+      console.log(e)
+      return false;
+    }
   }
 }

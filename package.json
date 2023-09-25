@@ -4,10 +4,11 @@
   "description": "Node in-memory datastore that runs in a separate worker.",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && jest --coverage --verbose ./lib",
+    "test": "tsc && test ./lib",
     "prettier-write": "prettier --write .",
     "prettier-check": "prettier --check .",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "tsc && node ./lib/index.run.js"
   },
   "keywords": [],
   "author": "",
