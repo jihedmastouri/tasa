@@ -5,15 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "tsc && test ./lib",
-    "prettier-write": "prettier --write .",
-    "prettier-check": "prettier --check .",
-    "build": "tsc",
-    "start": "tsc && node ./lib/index.run.js"
+    "format:write": "prettier --write \"**/*.{ts,js,md}\" --ignore-path .gitignore --cache",
+    "format:check": "prettier --check \"**/*.{ts,js,md}\" --ignore-path .gitignore  --cache",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.6.5"
+    "@types/node": "^20.10.4"
   }
 }

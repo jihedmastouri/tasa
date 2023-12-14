@@ -5,9 +5,8 @@
  **/
 
 class Query {
-  //TODO: Implement Query class. (low priority for now)
   constructor() {}
-  exec() {
+  exec(): unknown {
     return null;
   }
   find() {

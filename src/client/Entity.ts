@@ -1,18 +1,17 @@
 import { BroadcastChannel } from 'worker_threads';
-import type { Worker } from 'worker_threads';
+import { Tasa } from './Tasa';
+import { Operant } from './Operant';
 
 export class Entity {
   private _name: string;
-  private worker: Worker;
-  private b_get: BroadcastChannel;
-  private b_set: BroadcastChannel;
+  private operant: Operant;
+  private parent: Tasa;
 
-  constructor(name: string, worker: Worker) {
-    this.worker = worker;
+  constructor(parent: Tasa, name: string, operant: Operant) {
+    this.parent = parent;
+    this.operant = operant;
     this._name = name;
-    this.worker.postMessage({ event: 'new', entity: name });
-    this.b_get = new BroadcastChannel(`get-${this.name}`);
-    this.b_set = new BroadcastChannel(`set-${this.name}`);
+    this.operant.postMessage({ event: 'new', entity: name });
   }
 
   get name(): string {
@@ -28,13 +27,12 @@ export class Entity {
    */
   set(key: string, value: unknown): Promise<boolean> {
     return new Promise((resolve, _) => {
-      this.worker.postMessage({ event: 'set', entity: this.name, key, value });
-      console.log(`Entity.set(${this.name}, ${key}, ${value})`);
-      this.b_set.onmessage = (event) => {
+      this.operant.postMessage({ event: 'set', entity: this.name, key, value });
+      console.debug(`Entity.set(${this.name}, ${key}, ${value})`);
+      this.operant.on("",(event) => {
         console.log(`Entity.set()`);
-        // @ts-ignore
         resolve(event.data);
-      };
+      });
     });
   }
 
@@ -43,15 +41,14 @@ export class Entity {
    * @param {string} key - The key.
    * @returns {Promise<unknown>} The value.
    * @throws {Error} If the key does not exist.
-   * @throws {Error} If the entity does not exist.
    */
   get(key: string): unknown {
-    this.worker.postMessage({ event: 'get', entityName: this.name, key });
+    this.operant.postMessage({ event: 'get', entity: this.name, key });
     return new Promise((resolve, _) => {
-      this.b_get.onmessage = (event) => {
-        // @ts-ignore
+      this.operant.on("", (event) => {
+        console.log(`Entity.set()`);
         resolve(event.data);
-      };
+      });
     });
   }
 
@@ -61,7 +58,7 @@ export class Entity {
    * @throws {Error} If the entity does not exist.
    */
   query(): Query {
-    console.log(`Entity.query()`);
+    console.debug(`Entity.query()`);
     return new Query();
   }
 
@@ -91,8 +88,19 @@ export class Entity {
    * @returns {Promise<boolean>} True if the entity was droped, False otherwise.
    * @throws {Error} If the entity does not exist.
    */
-  deleteAll(): Promise<boolean> {
+  clean(): Promise<boolean> {
     console.log(`Entity.delete()`);
+    return Promise.resolve(false);
+  }
+
+  /**
+   * Deletes all entries.
+   * @returns {Promise<boolean>} True if the entity was droped, False otherwise.
+   * @throws {Error} If the entity does not exist.
+   */
+  drop(): Promise<boolean> {
+    console.debug(`Entity.drop()`);
+    this.parent._dropEntity(this._name);
     return Promise.resolve(false);
   }
 }

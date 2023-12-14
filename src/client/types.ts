@@ -1,17 +1,24 @@
-export type msg_base = {
+export type MsgBase = {
   event: string;
   entity: string;
-}
+};
 
-export type msg_set = msg_base & {
+export type MsgSet = MsgBase & {
   event: 'set';
   key: string;
   value: unknown;
-}
+};
 
-export type msg_get = msg_base & {
+export type MsgGet = MsgBase & {
   event: 'get';
   key: string;
-}
+};
 
-export type msg = msg_set | msg_get | msg_base;
+export type Msg = MsgSet | MsgGet | MsgBase;
+
+const operantType = {
+  Worker: 0,
+  ChildProcess: 1,
+} as const;
+
+export type OperantType = keyof typeof operantType;

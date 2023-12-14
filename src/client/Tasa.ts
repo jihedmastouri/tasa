@@ -1,24 +1,25 @@
-import { Worker } from 'worker_threads';
-import path from 'node:path';
 import { Entity } from './Entity';
+import { Operant } from './Operant';
+import { OperantType } from './types';
 
 export class Tasa {
   private entities: Record<string, Entity>;
-  private worker: Worker;
+  private operant: Operant;
 
-  constructor() {
+  constructor(operantType: OperantType = 'Worker') {
     this.entities = {};
-    this.worker = new Worker(path.join(__dirname, '..', 'core', 'index.js'), { workerData: {} });
+    this.operant = new Operant(operantType);
   }
 
   /**
    * Creates a new entity with the specified name.
    * @param {string} entityName - The name of the entity.
    * @returns {Entity} The entity.
+   * @throws {Error} if the entity already exists.
    */
   new(entityName: string): Entity {
-    console.log(`Creating new entity: ${entityName}`);
-    const entity = new Entity(entityName, this.worker);
+    console.debug(`Creating new entity: ${entityName}`);
+    const entity = new Entity(this, entityName, this.operant);
     this.entities[entityName] = entity;
     return entity;
   }
@@ -28,7 +29,6 @@ export class Tasa {
    * @returns {string[]} The list of entities.
    */
   list(): string[] {
-    // TODO: Retrieve the list of entities from the Tasa-thread.
     return Object.keys(this.entities);
   }
 
@@ -45,21 +45,22 @@ export class Tasa {
    * Deletes an entity.
    * Same as Entity.drop()
    * @param {string} entityName - The name of the entity.
-   * @returns {boolean} True if the entity was deleted, false otherwise.
+   * @returns {Promise<boolean>} True if the entity was deleted, false otherwise.
    */
-  dropEntity(entityName: string): boolean {
+  dropEntity(entityName: string): Promise<boolean> {
+    return this.entities[entityName].drop();
+  }
+
+  _dropEntity(entityName: string) {
     if (this.entities[entityName]) {
       delete this.entities[entityName];
-      return true;
     }
-    return false;
   }
 
   /**
    * Deletes all entities.
-   * @returns {Promise<boolean>} True if all entities were deleted, False otherwise.
    */
-  dropAllEntities(): Promise<boolean> {
-    return Promise.resolve(false);
+  dropAllEntities() {
+    return Promise.allSettled(Object.entries(this.entities).map(([_, entity]) => entity.drop()));
   }
 }
