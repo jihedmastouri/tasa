@@ -11,7 +11,7 @@ export class Core {
 				if (typeof origMethod === "function") {
 					//@ts-ignore
 					return (...args) => {
-						if (target.entities[args[0]] === undefined) {
+						if (target.entities[args[0]] === undefined && prop !== "new") {
 							console.debug(`"${args[0]}" is not a registered entity`);
 							throw 404;
 						}

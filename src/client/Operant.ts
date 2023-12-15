@@ -12,8 +12,8 @@ export class Operant {
 
 	constructor(type: OperantType) {
 		this._type = type;
-    //@ts-ignore
-    const __filename = fileURLToPath(import.meta.url);
+		//@ts-ignore
+		const __filename = fileURLToPath(import.meta.url);
 
 		switch (this._type) {
 			case "Worker":

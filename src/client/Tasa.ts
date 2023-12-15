@@ -19,6 +19,7 @@ export class Tasa {
 	 */
 	new(entityName: string): Entity {
 		console.debug(`Creating new entity: ${entityName}`);
+
 		const entity = new Entity(this, entityName, this.operant);
 		this.entities[entityName] = entity;
 		return entity;
