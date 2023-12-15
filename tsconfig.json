@@ -1,25 +1,28 @@
 {
-  "include": ["./src"],
+  "include": ["src/**/*", "tests/**/*"],
   "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
     "outDir": "./lib",
-    "incremental": true,
-    "target": "ES2020",
-    "module": "commonjs",
-    "baseUrl": ".",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"]
+    },
+    "isolatedModules": true,
     "allowJs": false,
     "declaration": true,
     "declarationMap": true,
     "removeComments": true,
-
-    "isolatedModules": true,
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "skipLibCheck": true
+    "noUnusedParameters": true
   }
 }

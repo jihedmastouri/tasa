@@ -1,13 +1,13 @@
 {
   "name": "tasa",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Node in-memory datastore that runs in a separate worker.",
-  "main": "index.js",
   "scripts": {
-    "test": "tsc && test ./lib",
+    "test": "pnpm clean && tsc && node --test ./lib/tests/*.test.js",
     "format:write": "biome format --write .",
     "format:check": "biome format .",
-    "build": "tsc"
+    "clean": "rm -rf ./lib",
+    "build": "pnpm clean && tsc"
   },
   "keywords": [],
   "author": "",

@@ -4,7 +4,7 @@
  * exec() method executes the query and returns the result.
  **/
 
-class Query {
+export class Query {
 	exec(): unknown {
 		return null;
 	}

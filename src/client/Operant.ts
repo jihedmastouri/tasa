@@ -1,8 +1,8 @@
 import path from "path";
 import { ChildProcess } from "child_process";
 import { BroadcastChannel, Worker } from "worker_threads";
-import { OperantType, Receiver, Sender } from "src/types";
-import { getChanName } from "src/utils";
+import { OperantType, Receiver, Sender } from "types";
+import { getChanName } from "utils";
 
 export class Operant {
 	private _operant: Worker | ChildProcess;
