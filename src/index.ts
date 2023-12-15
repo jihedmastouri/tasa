@@ -1,3 +1,3 @@
-import { Tasa } from 'client';
+import { Tasa } from "client";
 
 export { Tasa };
