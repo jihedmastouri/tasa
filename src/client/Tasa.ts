@@ -1,6 +1,6 @@
-import { Entity } from "client/Entity";
-import { Operant } from "client/Operant";
-import { OperantType } from "types";
+import { Entity } from "./Entity.js";
+import { Operant } from "./Operant.js";
+import { OperantType } from "../types.js";
 
 export class Tasa {
 	private entities: Record<string, Entity>;

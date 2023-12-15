@@ -1,8 +1,8 @@
 import { BroadcastChannel, isMainThread, parentPort } from "worker_threads";
 
-import { MsgGet, MsgSet, Sender } from "types";
-import { getChanName } from "utils";
-import { Core } from "core/Core";
+import { MsgGet, MsgSet, Sender } from "../types.js";
+import { getChanName } from "../utils.js";
+import { Core } from "./Core.js";
 
 if (isMainThread || !parentPort) {
 	throw new Error("You can not run this as the main thread");

@@ -1,6 +1,6 @@
-import { Operant } from "client/Operant";
-import { Tasa } from "client/Tasa";
-import { Query } from "client/Query";
+import { Operant } from "./Operant.js";
+import { Tasa } from "./Tasa.js";
+import { Query } from "./Query.js";
 
 export class Entity {
 	private _name: string;

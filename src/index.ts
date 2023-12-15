@@ -1,3 +1,3 @@
-import { Tasa } from "client";
+import { Tasa } from "./client/index.js";
 
 export { Tasa };

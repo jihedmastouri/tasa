@@ -1,8 +1,8 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
 
-import { Tasa } from "client";
-import { Core } from "core/Core";
+import { Tasa } from "../src/client/index.js";
+import { Core } from "../src/core/Core.js";
 
 describe("Testing threads, messages and other core functions", () => {
 	it("Tasa: Main APIs", () => {

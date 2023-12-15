@@ -1,28 +1,36 @@
 {
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
   "compilerOptions": {
-    "module": "NodeNext",
-    "target": "ESNext",
-    "esModuleInterop": true,
-    "moduleResolution": "NodeNext",
-    "rootDir": ".",
-    "outDir": "./lib",
-    "baseUrl": "./",
-    "paths": {
-      "*": ["src/*"]
-    },
-    "isolatedModules": true,
-    "allowJs": false,
+    /* Emit */
     "declaration": true,
-    "declarationMap": true,
+    "sourceMap": true,
+    "sourceMap": true,
+    "outDir": "dist/esm",
     "removeComments": true,
-    "skipLibCheck": true,
+
+    /* Interop */
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "esModuleInterop": true,
+
+    /* Module */
+    "lib": ["es5", "es2015", "es2016", "dom", "esnext"],
+    "types": ["node"],
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es6",
+    // "rootDir": "src",
+    // "baseUrl": "src",
+    // "paths": {
+    //   "src/*": ["src/*"]
+    // },
+
+    /* Checking */
+    // "strict": true,
+
+    /* JavaScript */
+    "allowJs": true,
+
+    /* Completeness */
+    "skipLibCheck": true
   }
 }

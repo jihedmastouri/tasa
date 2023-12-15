@@ -1,8 +1,9 @@
-import path from "path";
 import { ChildProcess } from "child_process";
+import { fileURLToPath } from "node:url";
+import path from "path";
 import { BroadcastChannel, Worker } from "worker_threads";
-import { OperantType, Receiver, Sender } from "types";
-import { getChanName } from "utils";
+import { OperantType, Receiver, Sender } from "../types.js";
+import { getChanName } from "../utils.js";
 
 export class Operant {
 	private _operant: Worker | ChildProcess;
@@ -11,11 +12,13 @@ export class Operant {
 
 	constructor(type: OperantType) {
 		this._type = type;
+    //@ts-ignore
+    const __filename = fileURLToPath(import.meta.url);
 
 		switch (this._type) {
 			case "Worker":
 				this._operant = new Worker(
-					path.join(__dirname, "..", "core", "worker.js"),
+					path.join(path.dirname(__filename), "..", "core", "worker.js"),
 					{
 						workerData: {},
 					},
