@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "tsc && test ./lib",
-    "format:write": "prettier --write \"**/*.{ts,js,md}\" --ignore-path .gitignore --cache",
-    "format:check": "prettier --check \"**/*.{ts,js,md}\" --ignore-path .gitignore  --cache",
+    "format:write": "biome format --write .",
+    "format:check": "biome format .",
     "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@biomejs/biome": "^1.4.1",
     "@types/node": "^20.10.4"
   }
 }
