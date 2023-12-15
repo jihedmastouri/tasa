@@ -3,19 +3,19 @@ export class Core {
 
   constructor() {
     this.entities = {};
+    // biome-ignore lint/correctness/noConstructorReturn: <Returning a proxy>
     return new Proxy(this, {
       get(target, prop) {
         //@ts-ignore
         const origMethod = target[prop];
-        if (typeof origMethod == 'function') {
+        if (typeof origMethod === 'function') {
           //@ts-ignore
-          return function (...args) {
-            if (target.entities[args[0]] === undefined ) {
-              console.debug(`"${args[0]}" is not a registered entity`)
+          return (...args) => {
+            if (target.entities[args[0]] === undefined) {
+              console.debug(`"${args[0]}" is not a registered entity`);
               return;
             }
-            let result = origMethod.apply(target, args);
-            return result;
+            return origMethod.apply(target, args);
           };
         }
       },
@@ -43,6 +43,8 @@ export class Core {
   }
 
   forEach(name: string, fn: (entry: unknown) => void) {
-    return this.entities[name].forEach(fn);
+    for (const entry of this.entities[name]) {
+      fn(entry);
+    }
   }
 }

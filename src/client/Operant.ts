@@ -1,7 +1,7 @@
 import { ChildProcess } from 'child_process';
+import path from 'path';
 import { Worker } from 'worker_threads';
 import { Msg, OperantType } from './types';
-import path from 'path';
 
 export class Operant {
   private _operant: Worker | ChildProcess;

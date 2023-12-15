@@ -1,6 +1,6 @@
-import { parentPort, isMainThread } from 'worker_threads';
-import { Core } from './core';
 import { Msg, MsgGet, MsgSet } from 'client/types';
+import { isMainThread, parentPort } from 'worker_threads';
+import { Core } from "./Core";
 
 if (isMainThread || !parentPort) {
   throw new Error('You can not run this as the maun thread');

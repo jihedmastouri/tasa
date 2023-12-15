@@ -5,7 +5,6 @@
  **/
 
 class Query {
-  constructor() {}
   exec(): unknown {
     return null;
   }

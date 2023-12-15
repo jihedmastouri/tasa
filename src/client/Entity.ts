@@ -1,6 +1,5 @@
-import { BroadcastChannel } from 'worker_threads';
-import { Tasa } from './Tasa';
 import { Operant } from './Operant';
+import { Tasa } from './Tasa';
 
 export class Entity {
   private _name: string;
@@ -29,9 +28,9 @@ export class Entity {
     return new Promise((resolve, _) => {
       this.operant.postMessage({ event: 'set', entity: this.name, key, value });
       console.debug(`Entity.set(${this.name}, ${key}, ${value})`);
-      this.operant.on("",(event) => {
-        console.log(`Entity.set()`);
-        resolve(event.data);
+      this.operant.on("",() => {
+        console.log("Entity.set()");
+        resolve(true);
       });
     });
   }
@@ -46,8 +45,8 @@ export class Entity {
     this.operant.postMessage({ event: 'get', entity: this.name, key });
     return new Promise((resolve, _) => {
       this.operant.on("", (event) => {
-        console.log(`Entity.set()`);
-        resolve(event.data);
+        console.log("Entity.set()");
+        resolve(event);
       });
     });
   }
@@ -58,7 +57,7 @@ export class Entity {
    * @throws {Error} If the entity does not exist.
    */
   query(): Query {
-    console.debug(`Entity.query()`);
+    console.debug("Entity.query()");
     return new Query();
   }
 
@@ -68,7 +67,7 @@ export class Entity {
    * @throws {Error} If the entity does not exist.
    */
   keys(): Promise<string[]> {
-    console.log(`Entity.keys()`);
+    console.debug("Entity.keys()");
     return Promise.resolve([]);
   }
 
@@ -89,7 +88,7 @@ export class Entity {
    * @throws {Error} If the entity does not exist.
    */
   clean(): Promise<boolean> {
-    console.log(`Entity.delete()`);
+    console.debug("Entity.clean()");
     return Promise.resolve(false);
   }
 
@@ -99,7 +98,7 @@ export class Entity {
    * @throws {Error} If the entity does not exist.
    */
   drop(): Promise<boolean> {
-    console.debug(`Entity.drop()`);
+    console.debug("Entity.drop()");
     this.parent._dropEntity(this._name);
     return Promise.resolve(false);
   }
