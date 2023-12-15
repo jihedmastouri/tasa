@@ -5,14 +5,14 @@
  **/
 
 class Query {
-  exec(): unknown {
-    return null;
-  }
-  find() {
-    return this;
-  }
-  findAll() {
-    return this;
-  }
-  /* .... */
+	exec(): unknown {
+		return null;
+	}
+	find() {
+		return this;
+	}
+	findAll() {
+		return this;
+	}
+	/* .... */
 }

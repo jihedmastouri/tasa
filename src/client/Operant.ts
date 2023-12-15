@@ -1,29 +1,54 @@
-import { ChildProcess } from 'child_process';
-import path from 'path';
-import { Worker } from 'worker_threads';
-import { Msg, OperantType } from './types';
+import path from "path";
+import { ChildProcess } from "child_process";
+import { BroadcastChannel, Worker } from "worker_threads";
+import { OperantType, Receiver, Sender } from "src/types";
+import { getChanName } from "src/utils";
 
 export class Operant {
-  private _operant: Worker | ChildProcess;
-  private _type: OperantType;
+	private _operant: Worker | ChildProcess;
+	private _type: OperantType;
+	private channels: Record<string, BroadcastChannel> = {};
 
-  constructor(type: OperantType) {
-    this._type = type;
+	constructor(type: OperantType) {
+		this._type = type;
 
-    switch (this._type) {
-      case 'Worker':
-        this._operant = new Worker(path.join(__dirname, '..', 'core', 'index.js'), {
-          workerData: {},
-        });
-        break;
-      case 'ChildProcess':
-        throw 'Child Process Not Supported yet';
-    }
-  }
+		switch (this._type) {
+			case "Worker":
+				this._operant = new Worker(
+					path.join(__dirname, "..", "core", "worker.js"),
+					{
+						workerData: {},
+					},
+				);
+				break;
+			case "ChildProcess":
+				throw "Child Process Not Supported yet";
+		}
+	}
 
-  postMessage(msg: Msg) {
-    return;
-  }
+	postMessage(msg: Sender) {
+		switch (this._type) {
+			case "Worker": {
+				const channelName = getChanName(msg.event, msg.entity);
+				this.channels[channelName] = new BroadcastChannel(channelName);
+				(this._operant as Worker).postMessage(msg);
+				break;
+			}
+		}
+	}
 
-  on(chan: string, callback: (data: unknown) => void) {}
+	on(chan: Omit<Receiver, "value">, callback: (data: unknown) => void) {
+		switch (this._type) {
+			case "Worker": {
+				const channelName = getChanName(chan.event, chan.entity);
+				this.channels[channelName].onmessage = (value) => {
+					callback(value);
+					this.channels[channelName].close();
+				};
+
+				delete this.channels[channelName];
+			}
+			break;
+		}
+	}
 }
