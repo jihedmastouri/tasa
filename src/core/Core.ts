@@ -11,7 +11,7 @@ export class Core {
 				if (typeof origMethod === "function") {
 					//@ts-ignore
 					return (...args) => {
-						if (target.entities[args[0]] === undefined && prop !== "new") {
+						if (target.entities[args[0]] === undefined && args.length > 1) {
 							console.debug(`"${args[0]}" is not a registered entity`);
 							throw 404;
 						}
@@ -44,7 +44,7 @@ export class Core {
 
 	forEach(
 		name: string,
-		fn: (entryName: string, value: unknown) => never | unknown,
+		fn: (entryName: string, value: unknown) => undefined | unknown,
 	) {
 		for (const [entryName, value] of this.entities[name]) {
 			this.entities[name].set(entryName, fn(entryName, value) ?? value);

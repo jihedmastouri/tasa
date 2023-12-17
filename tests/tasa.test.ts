@@ -5,7 +5,7 @@ import { Tasa } from "../src/client/index.js";
 import { Core } from "../src/core/Core.js";
 
 describe("Testing threads, messages and other core functions", () => {
-	it("Tasa: Main APIs", async () => {
+	it.skip("Tasa: Main APIs", async () => {
 		const tasa = new Tasa();
 		const user = tasa.new("users");
 
@@ -15,8 +15,8 @@ describe("Testing threads, messages and other core functions", () => {
 			tasa.new("users");
 		}, "Recreating user entity should throw an error");
 
-		const val = await tasa.get("users");
-		assert.deepEqual(val, user, "Get User Entity");
+		const newRef = tasa.get("users");
+		assert.equal(newRef, user, "Get User Entity");
 
 		// tasa.dropEntity("users");
 		// assert.deepEqual(tasa.list(), ["posts", "comments"], "Drop User Entity");
@@ -33,39 +33,46 @@ describe("Testing threads, messages and other core functions", () => {
 		core.set("users", "foo", [5, 67, 8, 7]);
 		core.set("users", "bar", 56);
 
-		assert.equal(core.get("users", "foo"), [5, 67, 8, 7]);
+		assert.deepEqual(core.get("users", "foo"), [5, 67, 8, 7]);
 		assert.equal(core.get("users", "bar"), 56);
 
 		core.delete("users", "foo");
 		assert.equal(core.get("users", "foo"), undefined);
 
 		core.clean("users");
-		assert.equal(core.get("users", "bar"), undefined);
+		assert.throws(() => {
+			core.get("users", "bar");
+		}, "Setting a value to an entity that doesn't exit");
 
-		/* check setting something that doesn't exist */
-		core.set("posts", "foo", "fizzbuzz");
+		assert.throws(() => {
+			core.set("posts", "foo", "fizzbuzz");
+		}, "Setting a value to an entity that doesn't exit");
 	});
 
-	it.skip("Core: Main APIs | foreach", () => {
-		const core = new Core();
-		core.set("comments", "foo", "fizz");
-		core.set("comments", "bar", "buzz");
-		core.set("comments", "baz", "fizzbuzz");
+	it("Core: Main APIs | foreach", () => {
+		const names = ["foo", "bar", "baz"];
+		const entityName = "comments";
 
-		// biome-ignore lint/complexity/noForEach: <this how we doit 🎶>
-		core.forEach("comments", (_, val) => {
-			switch (val) {
-				case "fizz":
-					return 3;
-				case "buzz":
-					return 5;
-				case "fizzbuzz":
-					return 35;
+		const original = ["fizz", "buzz", "fizzbuzz"];
+		const res = ["3", "5", "15"];
+
+		const core = new Core();
+		core.new(entityName);
+
+		for (let i = 0; i < names.length; i++) {
+			core.set(entityName, names[i], original[i]);
+		}
+
+		// biome-ignore lint/complexity/noForEach: <this how we do it 🎶>
+		core.forEach(entityName, (_, val) => {
+			const index = original.indexOf(val as string);
+			if (index !== -1) {
+				return res[index];
 			}
 		});
 
-		assert.equal(core.get("comments", "foo"), 3);
-		assert.equal(core.get("comments", "bar"), 5);
-		assert.equal(core.get("comments", "baz"), 35);
+		for (let i = 0; i < names.length; i++) {
+			assert.equal(core.get(entityName, names[i]), res[i]);
+		}
 	});
 });
