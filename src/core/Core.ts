@@ -6,13 +6,10 @@ export class Core {
 		// biome-ignore lint/correctness/noConstructorReturn: <Returning a proxy>
 		return new Proxy(this, {
 			get(target, prop) {
-				//@ts-ignore
 				const origMethod = target[prop];
 				if (typeof origMethod === "function") {
-					//@ts-ignore
-					return (...args) => {
+					return (...args: string[]) => {
 						if (target.entities[args[0]] === undefined && args.length > 1) {
-							console.debug(`"${args[0]}" is not a registered entity`);
 							throw 404;
 						}
 						return origMethod.apply(target, args);

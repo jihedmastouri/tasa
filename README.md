@@ -46,17 +46,21 @@ Communication is done asynchrounisly with promises.
 Start by creating a New instance of `Tasa`.
 
 ```ts
+// Params: operantType: "Worker"|"ChildProcess" = "Worker"
+// Only Worker Threads are supported for the time being.
 const tasa = new Tasa();
 ```
 
 ### Tasa
 
 - `tasa.new(entityName: string): Entity` Creates a new entity and returns an `Entity` object.
-- `tasa.get(entityName: string): Entity` Retrieves a reference to an existing entity if it exists.
+- `tasa.getRef(entityName: string): Entity` Retrieves a reference to an existing entity if it exists.
 - `tasa.list(): string[]` Returns a list of entity names as a string array.
-- `tasa.dropEntity(entityName: string)` Deletes a specified entity.
+- `tasa.dropEntity(entityName: string)` Deletes the specified entity.
 - `tasa.dropAllEntities()` delete all entities.
 - `tasa.kill()` Terminates the separate thread and deletes all entities.
+- `tasa.reinit(operantType: "Worker"|"ChildProcess" = "Worker")` Re-initiate the worker thread or child process.
+  > :warning: only Worker Threads are supported for the time being.
 
 ### Entity
 

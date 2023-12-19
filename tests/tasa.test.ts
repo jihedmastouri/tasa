@@ -5,24 +5,32 @@ import { Tasa } from "../src/client/index.js";
 import { Core } from "../src/core/Core.js";
 
 describe("Testing threads, messages and other core functions", () => {
-	it.skip("Tasa: Main APIs", async () => {
+	it("Tasa: Main APIs", async () => {
 		const tasa = new Tasa();
-		const user = tasa.new("users");
 
-		assert.equal(tasa.list(), ["users", "posts"], "Entities Creation");
+		const user = tasa.new("users");
+		const posts = tasa.new("posts");
+
+		assert.deepEqual(tasa.list(), ["users", "posts"], "Entities Creation");
 
 		assert.throws(() => {
 			tasa.new("users");
 		}, "Recreating user entity should throw an error");
 
-		const newRef = tasa.get("users");
+		const newRef = tasa.getRef("users");
 		assert.equal(newRef, user, "Get User Entity");
 
-		// tasa.dropEntity("users");
-		// assert.deepEqual(tasa.list(), ["posts", "comments"], "Drop User Entity");
+		await tasa.dropEntity("users");
+		assert.deepEqual(tasa.list(), ["posts"], "Drop User Entity");
 
-		// tasa.dropAllEntities();
-		// assert.equal(tasa.list().length, 0, "Drop All Entities");
+		await tasa.dropAllEntities();
+		assert.equal(tasa.list().length, 0, "Drop All Entities");
+
+		const comments = tasa.new("comments");
+		const n = await tasa.kill();
+		assert.equal(n, 0, "Thread killed");
+
+		tasa.reinit();
 	});
 
 	it("Core: Main APIs | set, get and delete", () => {
@@ -42,7 +50,7 @@ describe("Testing threads, messages and other core functions", () => {
 		core.clean("users");
 		assert.throws(() => {
 			core.get("users", "bar");
-		}, "Setting a value to an entity that doesn't exit");
+		}, "Getting an entity that doesn't exit / Deleting an entity");
 
 		assert.throws(() => {
 			core.set("posts", "foo", "fizzbuzz");

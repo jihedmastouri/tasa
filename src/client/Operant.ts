@@ -10,6 +10,10 @@ export class Operant {
 	private _type: OperantType;
 	private channels: Record<string, BroadcastChannel> = {};
 
+	get type(): string {
+		return this._type;
+	}
+
 	constructor(type: OperantType) {
 		this._type = type;
 		//@ts-ignore
@@ -52,6 +56,14 @@ export class Operant {
 				delete this.channels[channelName];
 			}
 			break;
+		}
+	}
+
+	kill() {
+		switch (this._type) {
+			case "Worker": {
+				return (this._operant as Worker).terminate();
+			}
 		}
 	}
 }

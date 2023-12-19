@@ -2,7 +2,7 @@ import { Operant } from "./Operant.js";
 import { Tasa } from "./Tasa.js";
 import { Query } from "./Query.js";
 
-export class Entity {
+export class EntityBase {
 	private _name: string;
 	private operant: Operant;
 	private parent: Tasa;
@@ -26,7 +26,12 @@ export class Entity {
 	 */
 	set(key: string, value: unknown): Promise<unknown | string> {
 		return new Promise((resolve, reject) => {
-			this.operant.postMessage({ event: "set", entity: this.name, key, value });
+			this.operant.postMessage({
+				event: "set",
+				entity: this.name,
+				key,
+				value,
+			});
 			this.operant.on({ entity: this.name, event: "set" }, (data) => {
 				if (data === undefined) reject("failed!");
 				resolve(data);
@@ -92,12 +97,36 @@ export class Entity {
 
 	/**
 	 * Deletes all entries.
-	 * @returns {Promise<boolean>} True if the entity was droped, False otherwise.
+	 * @returns {Promise<void>} True if the entity was droped, False otherwise.
 	 * @throws {Error} If the entity does not exist.
 	 */
-	drop(): Promise<boolean> {
+	drop(): Promise<void> {
 		console.debug("Entity.drop()");
 		this.parent.__dropEntity(this._name);
-		return Promise.resolve(false);
+		return Promise.resolve();
 	}
 }
+
+export const Entity = (parent: Tasa, name: string, operant: Operant) =>
+	new Proxy(
+		{ current: new EntityBase(parent, name, operant) },
+		{
+			get(target, prop) {
+				const origMethod = target[prop];
+				if (typeof origMethod === "function") {
+					return (...args: string[]) => {
+						if (args[0] === "drop") {
+							// TODO: drop entity in worker thread
+							this.parent.__dropEntity(this._name);
+							target.current = undefined;
+						}
+						return origMethod.apply(target.current, args);
+					};
+				}
+			},
+		},
+	);
+
+export type Entity = {
+	current: EntityBase;
+};
