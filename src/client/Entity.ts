@@ -77,7 +77,7 @@ export class EntityBase {
 	/**
 	 * Deletes a key.
 	 * @param {string} key - The key.
-	 * @returns {Promise<boolean>} True if the key was deleted, False otherwise.
+	 * @returns {Promise<void>} rejects with an error if faild;
 	 * @throws {Error} If the entity does not exist.
 	 */
 	delete(key: string): Promise<boolean> {
@@ -96,14 +96,13 @@ export class EntityBase {
 	}
 
 	/**
-	 * Deletes all entries.
-	 * @returns {Promise<void>} True if the entity was droped, False otherwise.
-	 * @throws {Error} If the entity does not exist.
+	 * Drop Entity
+	 * @returns {Promise<void>} rejects with an error if faild;
 	 */
 	drop(): Promise<void> {
-		console.debug("Entity.drop()");
 		this.parent.__dropEntity(this._name);
-		return Promise.resolve();
+		// TODO: Drop entity in worker thread;
+		return Promise.reject();
 	}
 }
 
@@ -112,13 +111,19 @@ export const Entity = (parent: Tasa, name: string, operant: Operant) =>
 		{ current: new EntityBase(parent, name, operant) },
 		{
 			get(target, prop) {
-				const origMethod = target[prop];
+				const origMethod = target.current[prop];
 				if (typeof origMethod === "function") {
 					return (...args: string[]) => {
 						if (args[0] === "drop") {
-							// TODO: drop entity in worker thread
-							this.parent.__dropEntity(this._name);
-							target.current = undefined;
+							return new Promise<void>((res, rej) => {
+								target.current
+									.drop()
+									.then(() => {
+										target.current = undefined;
+										res();
+									})
+									.catch(rej);
+							});
 						}
 						return origMethod.apply(target.current, args);
 					};
