@@ -1,10 +1,10 @@
 {
-  "include": ["src/**/*.ts"],
+  "include": ["tests/**/*.ts"],
   "compilerOptions": {
-    "declaration": true,
-    "sourceMap": true,
-    "sourceMap": true,
-    "outDir": "dist/src",
+    "declaration": false,
+    "sourceMap": false,
+    "sourceMap": false,
+    "outDir": "dist",
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -12,9 +12,7 @@
     "module": "esNext",
     "moduleResolution": "node",
     "target": "esNext",
-    /* Checking */
-    // "strict": true,
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true
   }
 }
