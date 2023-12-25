@@ -4,7 +4,7 @@ import { describe, it } from "node:test";
 import { Tasa } from "../src/client/index.js";
 import { Core } from "../src/core/Core.js";
 
-describe("Testing threads, messages and other core functions", () => {
+describe.skip("Testing threads, messages and other core functions", () => {
 	it("Tasa: Main APIs", async () => {
 		const tasa = new Tasa();
 

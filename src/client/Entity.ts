@@ -26,13 +26,13 @@ export class EntityBase {
 	 */
 	set(key: string, value: unknown): Promise<unknown | string> {
 		return new Promise((resolve, reject) => {
-			this.operant.postMessage({
+			const chan = this.operant.postMessage({
 				event: "set",
 				entity: this.name,
 				key,
 				value,
 			});
-			this.operant.on({ entity: this.name, event: "set" }, (data) => {
+			this.operant.on(chan, (data) => {
 				if (data === undefined) reject("failed!");
 				resolve(data);
 			});
@@ -46,8 +46,12 @@ export class EntityBase {
 	 */
 	get(key: string): Promise<unknown | string> {
 		return new Promise((resolve, reject) => {
-			this.operant.postMessage({ event: "get", entity: this.name, key });
-			this.operant.on({ entity: this.name, event: "get" }, (data) => {
+			const chan = this.operant.postMessage({
+				event: "get",
+				entity: this.name,
+				key,
+			});
+			this.operant.on(chan, (data) => {
 				if (data === undefined) reject("failed!");
 				resolve(data);
 			});
@@ -112,6 +116,7 @@ export const Entity = (parent: Tasa, name: string, operant: Operant) =>
 		{
 			get(target, prop) {
 				const origMethod = target.current[prop];
+				console.log('fooooooooooooooooooooo')
 				if (typeof origMethod === "function") {
 					return (...args: string[]) => {
 						if (args[0] === "drop") {

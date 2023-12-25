@@ -60,21 +60,21 @@ const tasa = new Tasa();
 - `tasa.dropAllEntities()` delete all entities.
 - `tasa.kill()` Terminates the separate thread and deletes all entities.
 - `tasa.reinit(operantType: "Worker"|"ChildProcess" = "Worker")` Re-initiate the worker thread or child process.
-  > :warning: only Worker Threads are supported for the time being.
+> :warning: only Worker Threads are supported for the time being.
 
 ### Entity
 
 A wrapper around `Map<string,unkown>`:
 
-- `entity.set(entry: string, value: unkown): Promise<void>` add a new entry or change the value of
+- `entity.current.set(entry: string, value: unkown): Promise<void>` add a new entry or change the value of
   an existing one.
-- `entity.get(entry: string) Promise<unkown>` get the value of an entry.
-- `entity.delete(entry: string) Pomise<void>` delete an entry in the Map.
-- `entity.forEach(fn)` run a function on each entry with a possibility to change the values: `(entry: string, value: unknown) => undefined | unknown`
-- `entity.keys(): Promise<string[]>`
-- `entity.clean()` remove all entries in the Map.
-- `entity.drop()` same as `tasa.dropEntity(entityName: string)`.
-- `entity.query(): Query`
+- `entity.current.get(entry: string) Promise<unkown>` get the value of an entry.
+- `entity.current.delete(entry: string) Pomise<void>` delete an entry in the Map.
+- `entity.current.forEach(fn)` run a function on each entry with a possibility to change the values. `fn(entry: string, value: unknown) => undefined | unknown`
+- `entity.current.keys(): Promise<string[]>`
+- `entity.current.clean()` remove all entries in the Map.
+- `entity.current.drop()` same as `tasa.dropEntity(entityName: string)`.
+- `entity.current.query(): Query`
 
 ### Query
 

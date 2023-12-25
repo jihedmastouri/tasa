@@ -10,7 +10,7 @@ if (isMainThread || !parentPort) {
 
 const core = new Core();
 
-const foo = parentPort.on("message", (data: Sender) => {
+parentPort.on("message", (data: Sender | { event: "term" }) => {
 	switch (data.event) {
 		case "new":
 			core.new(data.entity);
@@ -37,8 +37,13 @@ const foo = parentPort.on("message", (data: Sender) => {
 				pong(value);
 			} catch {
 				pong();
-				break;
 			}
+			break;
+		}
+
+		case "term": {
+			parentPort.close();
+			return;
 		}
 	}
 });
