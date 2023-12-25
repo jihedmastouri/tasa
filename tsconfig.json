@@ -5,7 +5,7 @@
     "declaration": true,
     "sourceMap": true,
     "sourceMap": true,
-    "outDir": "dist/esm",
+    "outDir": "dist",
     "removeComments": true,
 
     /* Interop */
