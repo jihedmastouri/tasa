@@ -10,7 +10,7 @@ if (isMainThread || !parentPort) {
 
 const core = new Core();
 
-parentPort.on("message", (data: Sender) => {
+const foo = parentPort.on("message", (data: Sender) => {
 	switch (data.event) {
 		case "new":
 			core.new(data.entity);
@@ -28,6 +28,7 @@ parentPort.on("message", (data: Sender) => {
 			}
 			break;
 		}
+
 		case "get": {
 			const pong = ponger(data);
 			const { entity, key } = data as MsgGet;

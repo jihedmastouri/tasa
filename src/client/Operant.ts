@@ -62,6 +62,9 @@ export class Operant {
 	kill() {
 		switch (this._type) {
 			case "Worker": {
+				for (const [_, channel] of Object.entries(this.channels)) {
+					channel.close();
+				}
 				return (this._operant as Worker).terminate();
 			}
 		}

@@ -19,7 +19,7 @@ export class Tasa {
 	 * @param {string} entityName - The name of the entity.
 	 * @returns {Entity} - A new entity or a ref to an existing one.
 	 */
-	new(entityName: string):Entity {
+	new(entityName: string): Entity {
 		if (this.operant === null)
 			throw "Operant is null. You need to reinit() first";
 
@@ -89,14 +89,14 @@ export class Tasa {
 
 	/**
 	 * Terminates the separate thread and deletes all entities.
-	 * @returns {Promise<number>} throws an error if it fails.
+	 * @returns {Promise<number>} - exitCode | rejects in error or if no thread is running.
 	 */
 	kill(): Promise<number> {
 		return new Promise((res, rej) => {
 			this.entities = {};
 			if (this.operant === null) rej();
 			this.operant
-				?.kill()
+				.kill()
 				.then((n) => {
 					this.operant = null;
 					res(n);
